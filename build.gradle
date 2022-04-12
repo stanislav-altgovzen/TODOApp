@@ -17,6 +17,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation "io.swagger:swagger-annotations:1.5.22"
+	implementation "org.openapitools:jackson-databind-nullable:0.2.0"
 }
 
 tasks.named('test') {

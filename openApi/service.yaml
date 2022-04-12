@@ -1,0 +1,287 @@
+openapi: 3.0.0
+# Describes the templates service's API
+
+servers:
+  - description: ToDo App REST API server
+    url: http://localhost:8080
+
+info:
+  description: This is an Open API specification for ToDo app.
+  version: "1.0.0"
+  title: REST API specification for a TODO app
+  contact:
+    email: stanislav.altgovzen@yotpo.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+tags:
+  - name: User
+  - name: Task
+
+paths:
+  /user/all:
+    get:
+      summary: Get all users
+      tags:
+        - User
+      operationId: getUsers
+      responses:
+        200:
+          description: All users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /user:
+    post:
+      summary: Create new user
+      tags:
+        - User
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: User created
+
+  /user/{user_id}:
+    get:
+      summary: Get user
+      tags:
+        - User
+      operationId: getUser
+      parameters:
+        - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        200:
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: User not found
+
+    put:
+      summary: Update user
+      tags:
+        - User
+      operationId: updateUser
+      parameters:
+        - $ref: '#/components/parameters/userIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: User updated successfully
+        404:
+          description: Specified user does not exist
+
+    delete:
+      summary: Delete user
+      tags:
+        - User
+      parameters:
+        - $ref: '#/components/parameters/userIdPathParam'
+      responses:
+        200:
+          description: User deleted successfully
+        404:
+          description: User not found
+
+  /task/all:
+    get:
+      summary: Get all taska
+      tags:
+        - Task
+      operationId: getTasks
+      responses:
+        200:
+          description: All tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /task:
+    post:
+      summary: Create new task
+      tags:
+        - Task
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Task created
+
+  /task/{task_id}:
+    get:
+      summary: Get task
+      tags:
+        - Task
+      operationId: getTask
+      parameters:
+        - $ref: '#/components/parameters/taskIdPathParam'
+      responses:
+        200:
+          description: Task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: Task not found
+
+    put:
+      summary: Update task
+      tags:
+        - Task
+      operationId: updateTask
+      parameters:
+        - $ref: '#/components/parameters/taskIdPathParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Task updated successfully
+        404:
+          description: Specified task does not exist
+
+    delete:
+      summary: Delete task
+      tags:
+        - Task
+      parameters:
+        - $ref: '#/components/parameters/taskIdPathParam'
+      responses:
+        200:
+          description: Task deleted successfully
+        404:
+          description: Task not found
+
+components:
+  schemas:
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        firstName:
+          type: string
+        lastName:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+      required:
+        - id
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        assignee:
+          $ref: '#/components/schemas/User'
+        title:
+          type: string
+        description:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        scheduled:
+          type: boolean
+        priority:
+          type: array
+          items:
+            $ref: '#/components/schemas/Priority'
+        status:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+      required:
+        - id
+        - status
+        - title
+
+    ToDoList:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+
+    Priority:
+      type: string
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+
+    Status:
+      type: string
+      enum:
+        - UNASSIGNED
+        - NOT_STARTED
+        - IN_PROGRESS
+        - LATE
+        - COMPLETED
+        - ARCHIVED
+
+  parameters:
+
+    userIdPathParam:
+      in: path
+      name: user_id
+      required: true
+      description: User ID
+      schema:
+        type: integer
+        format: int64
+
+    taskIdPathParam:
+      in: path
+      name: task_id
+      required: true
+      description: Task id
+      schema:
+        type: integer
+        format: int64
+
+
