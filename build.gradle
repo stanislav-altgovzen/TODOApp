@@ -1,5 +1,6 @@
 plugins {
 	id 'org.springframework.boot' version '2.6.6'
+	id 'org.openapi.generator' version '4.3.0'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -12,10 +13,44 @@ repositories {
 	mavenCentral()
 }
 
+// https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+openApiGenerate {
+	generatorName = "spring"
+	inputSpec = "$projectDir/openApi/service.yaml"
+	outputDir = "$buildDir/generated/server"
+	apiPackage = "${group}.api.generated"
+	invokerPackage = "${group}.api.generated.invoker"
+	modelPackage = "${group}.generated.model"
+	modelNameSuffix = "Dto"
+	languageSpecificPrimitives = [ "ApiError" ]
+	importMappings = [
+			ApiError : "com.yotpo.communication.common.web.model.ApiError"
+	]
+
+	// config options "documentation": https://openapi-generator.tech/docs/generators/spring
+	configOptions = [
+			dateLibrary            : "java8-localdatetime",
+			hideGenerationTimestamp: "true",
+			interfaceOnly          : "true",
+			unhandledException     : "true",
+			useTags                : "true"
+	]
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs "$buildDir/generated/server/src/main/java/"
+		}
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    runtimeOnly 'mysql:mysql-connector-java'
+	implementation "org.springframework.boot:spring-boot-starter-validation"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

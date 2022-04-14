@@ -25,7 +25,7 @@ paths:
       summary: Get all users
       tags:
         - User
-      operationId: getUsers
+      operationId: getAllUsers
       responses:
         200:
           description: All users
@@ -51,6 +51,10 @@ paths:
       responses:
         201:
           description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
   /user/{user_id}:
     get:
@@ -93,6 +97,7 @@ paths:
       summary: Delete user
       tags:
         - User
+      operationId: deleteUser
       parameters:
         - $ref: '#/components/parameters/userIdPathParam'
       responses:
@@ -283,5 +288,3 @@ components:
       schema:
         type: integer
         format: int64
-
-
