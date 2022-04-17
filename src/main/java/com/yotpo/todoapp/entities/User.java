@@ -42,5 +42,6 @@ public class User {
                 ", tasks=" + tasks +
                 ", createDate=" + createDate +
                 '}';
+
     }
 }
