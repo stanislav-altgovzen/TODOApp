@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Table(name = "task")
 @NoArgsConstructor
 public class Task {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,7 +33,6 @@ public class Task {
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-
 
     private Boolean scheduled;
 
