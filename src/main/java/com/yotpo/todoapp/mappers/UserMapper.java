@@ -33,4 +33,5 @@ public class UserMapper {
 //        user.setTasks(userDto.getTasks()); TODO: Add support for updating user tasks
         return user;
     }
+
 }
