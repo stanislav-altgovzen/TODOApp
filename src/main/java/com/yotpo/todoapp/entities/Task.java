@@ -48,5 +48,6 @@ public class Task {
                 ", endDate=" + endDate +
                 ", scheduled=" + scheduled +
                 '}';
+
     }
 }
