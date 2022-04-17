@@ -15,7 +15,6 @@ import java.util.List;
 @Table(name = "user")
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +26,6 @@ public class User {
     @NotNull
     @Column(columnDefinition = "VARCHAR(100) NOT NULL")
     private String lastName;
-
-
 
     @OneToMany(mappedBy = "user")
     private List<Task> tasks;
